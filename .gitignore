@@ -1,0 +1,34 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# Typescript cache
+*.tsbuildinfo
+
+# Dist folder
+dist/
+build/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript compilation outputs
+*.js
+*.js.map
+*.d.ts
+
+# Optional npm cache directory
+.npm
