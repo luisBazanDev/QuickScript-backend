@@ -26,6 +26,7 @@ build/
 jspm_packages/
 
 # TypeScript compilation outputs
+.DS_Store
 *.js
 *.js.map
 *.d.ts
