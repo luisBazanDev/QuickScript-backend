@@ -10,6 +10,10 @@ import Languages from './Models/Languages';
 
 import { login } from './Controllers/AuthenticateController';
 
+import { saveSession } from './Controllers/UserController';
+
+import isAuthenticate from './Middlewares/AuthenticateMiddleware';
+
 dotenv.config();
 
 const app = express();
@@ -18,6 +22,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.post('/api/v1/authenticate', login);
+
+app.get('/api/v1/session/save', isAuthenticate, saveSession)
 
 const startServer = async () => {
   try {

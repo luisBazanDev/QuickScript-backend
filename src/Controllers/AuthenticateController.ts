@@ -28,12 +28,18 @@ export const login = async (req: Request, res: Response) => {
                 return res.status(401).json({ error: 'Wrong password' });
             }
     
-            const token = await new jose.SignJWT({id: user.id, email: user.username})
-            .setProtectedHeader({alg: 'HS-256', b64: true})
-            .setIssuedAt('urn:quickscript:issuer')
+            const token = await new jose.SignJWT({id: user.id, displayname: user.username})
+            .setProtectedHeader({alg: 'HS256', b64: true})
+            .setIssuedAt()
+            .setIssuer('urn:quickscript:issuer')
             .setAudience('urn:quickUser:audience')
             .setExpirationTime('2h')
             .sign(JWT_SECRET);
+
+            res.setHeader(
+                'Content-Security-Policy',
+                "default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none';"
+              );
           
             return res.status(200).json({ access_token: token });
         }
@@ -48,12 +54,18 @@ export const login = async (req: Request, res: Response) => {
     
             const newUser = await Users.create({username: username, password: hashedPassword });
     
-            const token = await new jose.SignJWT({id: newUser.id, email: newUser.username})
-            .setProtectedHeader({alg: 'HS-256', b64: true})
-            .setIssuedAt('urn:quickscript:issuer')
+            const token = await new jose.SignJWT({id: newUser.id, displayname: newUser.username})
+            .setProtectedHeader({alg: 'HS256', b64: true})
+            .setIssuedAt()
+            .setIssuer('urn:quickscript:issuer')
             .setAudience('urn:quickUser:audience')
             .setExpirationTime('2h')
             .sign(JWT_SECRET);
+
+            res.setHeader(
+                'Content-Security-Policy',
+                "default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none';"
+              );
           
             return res.status(200).json({ access_token: token });
         }
