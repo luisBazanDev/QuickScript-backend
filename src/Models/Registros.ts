@@ -7,8 +7,6 @@ class Registros extends Model{
     public wpm!: number;
     public time!: number;
     public total_words!: number;
-    public avg_error!: number;
-    public prefered_lang!: number;
 }
 
 Registros.init(

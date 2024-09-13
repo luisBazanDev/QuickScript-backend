@@ -40,12 +40,48 @@ export const saveSession = async (req: Request, res: Response) => {
         return res.status(200).json({
             message: 'the session was saved satisfactorily.', 
             data: {
+                id: newSession.id,
                 average_wpm: newSession.average_wpm,
                 precision: newSession.precision, 
                 min_wpm: newSession.min_wpm, 
                 max_wpm: newSession.max_wpm, 
                 start_time: newSession.start_time, 
                 end_time: newSession.end_time
+            }
+            });
+    }
+    catch (error)
+    {
+        console.log(error);
+        return res.status(500).json({ error: 'A problem occurred on the server.' });
+    }
+};
+
+export const saveRegistro = async (req: Request, res: Response) => {
+    const authHeader = req.headers['x-access-token'];
+
+    const { session_id, wpm, time, totalWords} = req.body;
+
+    try
+    {
+        const { payload } = await jose.jwtVerify(authHeader as string, JWT_SECRET, { algorithms: ['HS256'] });
+
+        
+
+        const newRegistro = await Registros.create(
+            {
+                session_id: session_id,
+                wpm: wpm,
+                time: time,
+                total_words: totalWords
+            });
+
+        return res.status(200).json({
+            message: 'the record was saved satisfactorily.', 
+            data: {
+                wpm: newRegistro.wpm,
+                time: newRegistro.time,
+                totalWords: newRegistro.total_words
             }
             });
     }

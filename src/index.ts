@@ -10,7 +10,7 @@ import Languages from './Models/Languages';
 
 import { login } from './Controllers/AuthenticateController';
 
-import { saveSession } from './Controllers/UserController';
+import { saveSession, saveRegistro } from './Controllers/UserController';
 
 import isAuthenticate from './Middlewares/AuthenticateMiddleware';
 
@@ -23,7 +23,9 @@ app.use(express.json());
 
 app.post('/api/v1/authenticate', login);
 
-app.get('/api/v1/session/save', isAuthenticate, saveSession)
+app.post('/api/v1/session/save', isAuthenticate, saveSession);
+
+app.post('/api/v1/record/save', isAuthenticate, saveRegistro);
 
 const startServer = async () => {
   try {
