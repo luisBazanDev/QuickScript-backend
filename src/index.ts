@@ -8,11 +8,7 @@ import Registros from './Models/Registros';
 import Error_Keys from './Models/Error_Keys';
 import Languages from './Models/Languages';
 
-import { login } from './Controllers/AuthenticateController';
-
-import { saveSession, saveRegistro } from './Controllers/UserController';
-
-import isAuthenticate from './Middlewares/AuthenticateMiddleware';
+import Api from './Routes/api';
 
 dotenv.config();
 
@@ -21,11 +17,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.post('/api/v1/authenticate', login);
-
-app.post('/api/v1/session/save', isAuthenticate, saveSession);
-
-app.post('/api/v1/record/save', isAuthenticate, saveRegistro);
+app.use('/api/v1/', Api);
 
 const startServer = async () => {
   try {
