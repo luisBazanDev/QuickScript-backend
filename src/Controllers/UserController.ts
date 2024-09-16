@@ -24,7 +24,7 @@ export const saveSession = async (req: Request, res: Response) => {
 
         if(!language_id)
         {
-            return res.status(404).json({ error: 'There is no language type.' });
+            return res.status(404).json({ message: 'There is no language type.' });
         }
 
         const newSession = await Sessions.create(
@@ -60,7 +60,7 @@ export const saveSession = async (req: Request, res: Response) => {
     catch (error)
     {
         console.log(error);
-        return res.status(500).json({ error: 'A problem occurred on the server.' });
+        return res.status(500).json({ message: 'A problem occurred on the server.' });
     }
 };
 
@@ -76,7 +76,7 @@ export const saveRegistro = async (req: Request, res: Response) => {
         const existSession = await Registros.findOne({where: {id: session_id}});
 
         if(!existSession){
-            return res.status(404).json({ error: 'Session not found' });
+            return res.status(404).json({ message: 'Session not found' });
         }
 
         const newRegistro = await Registros.create(
@@ -104,7 +104,7 @@ export const saveRegistro = async (req: Request, res: Response) => {
     catch (error)
     {
         console.log(error);
-        return res.status(500).json({ error: 'A problem occurred on the server.' });
+        return res.status(500).json({ message: 'A problem occurred on the server.' });
     }
 };
 

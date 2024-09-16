@@ -11,14 +11,14 @@ const isAuthenticate = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['x-access-token'];
   
     if (!authHeader) {
-      return res.status(403).json({ error: 'Token not provided' });
+      return res.status(403).json({ message: 'Token not provided.' });
     }
   
     try {
       const decoded = jose.jwtVerify(authHeader as string, JWT_SECRET, { algorithms: ['HS256'] });
       next();
     } catch (error) {
-      res.status(401).json({ error: 'Token inválido' });
+      res.status(401).json({ message: 'Wrong token.' });
     }
     next();
 };

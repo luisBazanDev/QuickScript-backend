@@ -41,7 +41,7 @@ export const login = async (req: Request, res: Response) => {
                 "default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none';"
               );
           
-            return res.status(200).json({ access_token: token });
+            return res.status(200).json({ username: username, access_token: token });
         }
         else if(type == 'register'){
             const user = await Users.findOne({ where: { username: username } });
@@ -65,15 +65,15 @@ export const login = async (req: Request, res: Response) => {
             res.setHeader(
                 'Content-Security-Policy',
                 "default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none';"
-              );
+            );
           
-            return res.status(200).json({ access_token: token });
+            return res.status(200).json({ username: user, access_token: token });
         }
         else{
-            return res.status(400).json({ error: 'Endpoint type does not exist' });
+            return res.status(400).json({ message: 'Endpoint type does not exist' });
         }
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ error: 'A problem occurred on the server.' });
+        return res.status(500).json({ message: 'A problem occurred on the server.' });
     }
 };
