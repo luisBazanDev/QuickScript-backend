@@ -27,87 +27,22 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 
 ### Responses Register:
 
-#### Response 200:
-
-```http
-  {
-    "access_token": "{JWT GENERATED}",
-    "data": {
-        "user_id": 1,
-        "username": "test"
-    }
-  }
-```
-
-#### Response 400:
-
-```http
-  {
-    "message": "User already exists."
-  }
-```
-
-#### Response 400:
-
-```http
-  {
-    "message": "Endpoint type does not exist."
-  }
-```
-
-#### Response 500:
-
-```http
-  {
-    "message": "A problem occurred on the server."
-  }
-```
+| Status | Response     |
+| :-------- | :------- |
+| `200` | `"access_token":"{JWT GENERATED}","data":{"user_id":1,"username":"test"}` |
+| `409` | `"message":"User already exists."` |
+| `400` | `"message":"Endpoint type does not exist."` |
+| `500` | `"message":"A problem occurred on the server."` |
 
 ### Responses Login:
 
-#### Response 200:
-
-```http
-  {
-    "access_token": "{JWT GENERATED}",
-    "data": {
-        "user_id": 1,
-        "username": "test"
-    }
-  }
-```
-
-#### Response 404:
-
-```http
-  {
-    "message": "User not found."
-  }
-```
-
-#### Response 400:
-
-```http
-  {
-    "message": "Wrong password."
-  }
-```
-
-#### Response 400:
-
-```http
-  {
-    "message": "Endpoint type does not exist."
-  }
-```
-
-#### Response 500:
-
-```http
-  {
-    "message": "A problem occurred on the server."
-  }
-```
+| Status | Response     |
+| :-------- | :------- |
+| `200` | `"access_token":"{JWT GENERATED}","data":{"user_id":1,"username":"test"}` |
+| `401` | `"message":"User not found."` |
+| `401` | `"message":"Wrong password."` |
+| `400` | `"message":"Endpoint type does not exist."` |
+| `500` | `"message":"A problem occurred on the server."` |
 
 ### Session Save
 
@@ -125,54 +60,15 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 | `start_time` | `date` |
 | `end_time` | `date` |
 
-#### Response 200:
+#### Responses:
 
-```http
-  {
-    "message": "the session was saved satisfactorily.",
-    "data": {
-        "id": 1,
-        "average_wpm": 75,
-        "precision": 95
-        "min_wpm": 60,
-        "max_wpm": 80,
-        "start_time": "2024-09-16T08:30:00Z",
-        "end_time": "2024-09-16T08:35:00Z"
-    }
-  }
-```
-
-#### Response 401:
-
-```http
-  {
-    "message": "Wrong token."
-  }
-```
-
-#### Response 403:
-
-```http
-  {
-    "message": "Token not provided."
-  }
-```
-
-#### Response 404:
-
-```http
-  {
-    "message": "There is no language type."
-  }
-```
-
-#### Response 500:
-
-```http
-  {
-    "message": "A problem occurred on the server."
-  }
-```
+| Status | Response     |
+| :-------- | :------- |
+| `200` | `"message":"the session was saved satisfactorily.","data":{"id":1,"average_wpm":75,"precision":95,"min_wpm":60,"max_wpm":80,"start_time":"2024-09-16T08:30:00Z","end_time":"2024-09-16T08:35:00Z"}` |
+| `401` | `"message":"Wrong token."` |
+| `403` | `"message":"Token not provided."` |
+| `404` | `"message":"There is no language type."` |
+| `500` | `"message":"A problem occurred on the server."` |
 
 #### Record Save
 

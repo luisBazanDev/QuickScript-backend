@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { login } from '../Controllers/AuthenticateController';
+import { getData, login } from '../Controllers/AuthenticateController';
 
 import { saveSession, saveRegistro, saveErrorKeys } from '../Controllers/UserController';
 
@@ -11,6 +11,8 @@ import { saveStats } from '../Controllers/GameController';
 var router = express.Router();
 
 router.post('authenticate', login);
+
+router.get('data/get', isAuthenticate, getData);
 
 router.post('session/save', isAuthenticate, saveSession);
 
