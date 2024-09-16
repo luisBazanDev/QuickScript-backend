@@ -13,7 +13,103 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 
 ## Endpoints
 
-#### Session Save
+#### Authenticate
+
+```http
+  POST /api/v1/authenticate
+```
+
+| Parameter JSON | Type     | Description     |
+| :-------- | :------- | :------- |
+| `type` | `string` | 'register' or 'login' |
+| `username` | `string` | |
+| `password` | `string` | |
+
+### Responses Register:
+
+#### Response 200:
+
+```http
+  {
+    "access_token": "{JWT GENERATED}",
+    "data": {
+        "user_id": 1,
+        "username": "test"
+    }
+  }
+```
+
+#### Response 400:
+
+```http
+  {
+    "message": "User already exists."
+  }
+```
+
+#### Response 400:
+
+```http
+  {
+    "message": "Endpoint type does not exist."
+  }
+```
+
+#### Response 500:
+
+```http
+  {
+    "message": "A problem occurred on the server."
+  }
+```
+
+### Responses Login:
+
+#### Response 200:
+
+```http
+  {
+    "access_token": "{JWT GENERATED}",
+    "data": {
+        "user_id": 1,
+        "username": "test"
+    }
+  }
+```
+
+#### Response 404:
+
+```http
+  {
+    "message": "User not found."
+  }
+```
+
+#### Response 400:
+
+```http
+  {
+    "message": "Wrong password."
+  }
+```
+
+#### Response 400:
+
+```http
+  {
+    "message": "Endpoint type does not exist."
+  }
+```
+
+#### Response 500:
+
+```http
+  {
+    "message": "A problem occurred on the server."
+  }
+```
+
+### Session Save
 
 ```http
   POST /api/v1/session/save
@@ -29,9 +125,9 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 | `start_time` | `date` |
 | `end_time` | `date` |
 
-```http
-  Response (200):
+#### Response 200:
 
+```http
   {
     "message": "the session was saved satisfactorily.",
     "data": {
@@ -44,27 +140,35 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
         "end_time": "2024-09-16T08:35:00Z"
     }
   }
+```
 
-  Response (401):
+#### Response 401:
 
+```http
   {
     "message": "Wrong token."
   }
+```
 
-  Response (403):
+#### Response 403:
 
+```http
   {
     "message": "Token not provided."
   }
+```
 
-  Response (404):
+#### Response 404:
 
+```http
   {
     "message": "There is no language type."
   }
+```
 
-  Response (500):
+#### Response 500:
 
+```http
   {
     "message": "A problem occurred on the server."
   }
@@ -73,7 +177,7 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 #### Record Save
 
 ```http
-  GET /api/record/save
+  POST /api/record/save
 ```
 
 | Parameter JSON | Type     |
@@ -82,6 +186,8 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 | `wpm`      | `int` |
 | `time`      | `int` |
 | `totalWords`      | `int` |
+
+#### Response 200:
 
 ```http
   Response (200):
@@ -95,27 +201,35 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
         "totalWords": 60
     }
   }
+```
 
-  Response (401):
+#### Response 401:
 
+```http
   {
     "message": "Wrong token."
   }
+```
 
-  Response (403):
+#### Response 403:
 
+```http
   {
     "message": "Token not provided."
   }
+```
 
-  Response (404):
+#### Response 404:
 
+```http
   {
     "message": "Session not found."
   }
+```
 
-  Response (500):
+#### Response 500:
 
+```http
   {
     "message": "A problem occurred on the server."
   }
