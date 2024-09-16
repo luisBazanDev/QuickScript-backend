@@ -1,3 +1,4 @@
+
 # API Documentation
 
 ## Overview
@@ -18,7 +19,7 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
   POST /api/v1/session/save
 ```
 
-| Parameter | Type     |
+| Parameter JSON | Type     |
 | :-------- | :------- |
 | `average_wpm` | `int` |
 | `language` | `string` |
@@ -26,10 +27,10 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 | `min_wpm` | `int` |
 | `max_wpm` | `int` |
 | `start_time` | `date` |
-| `end_time` | `int` |
+| `end_time` | `date` |
 
 ```http
-  Response:
+  Response (200):
 
   {
     "message": "the session was saved satisfactorily.",
@@ -43,6 +44,30 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
         "end_time": "2024-09-16T08:35:00Z"
     }
   }
+
+  Response (401):
+
+  {
+    "message": "Wrong token."
+  }
+
+  Response (403):
+
+  {
+    "message": "Token not provided."
+  }
+
+  Response (404):
+
+  {
+    "message": "There is no language type."
+  }
+
+  Response (500):
+
+  {
+    "message": "A problem occurred on the server."
+  }
 ```
 
 #### Record Save
@@ -51,9 +76,50 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
   GET /api/record/save
 ```
 
-| Parameter | Type     |
+| Parameter JSON | Type     |
 | :-------- | :------- |
-| `id`      | `string` |
+| `session_id`      | `int` |
+| `wpm`      | `int` |
+| `time`      | `int` |
+| `totalWords`      | `int` |
+
+```http
+  Response (200):
+
+  {
+    "message": "the record was saved satisfactorily.",
+    "data": {
+        "session_id": 1,
+        "wpm": 75,
+        "time": 95
+        "totalWords": 60
+    }
+  }
+
+  Response (401):
+
+  {
+    "message": "Wrong token."
+  }
+
+  Response (403):
+
+  {
+    "message": "Token not provided."
+  }
+
+  Response (404):
+
+  {
+    "message": "Session not found."
+  }
+
+  Response (500):
+
+  {
+    "message": "A problem occurred on the server."
+  }
+```
 
 #### Error Save
 
