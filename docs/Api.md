@@ -83,55 +83,35 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 | `time`      | `int` |
 | `totalWords`      | `int` |
 
-#### Response 200:
+#### Responses:
+
+| Status | Response     |
+| :-------- | :------- |
+| `200` | `"message":"the record was saved satisfactorily.","data":{"session_id":1,"wpm":75,"time":95,"totalWords":60}` |
+| `401` | `"message":"The user does not exist."` |
+| `401` | `"message":"Session not found."` |
+| `500` | `"message":"A problem occurred on the server."` |
+
+#### Record Save
 
 ```http
-  Response (200):
-
-  {
-    "message": "the record was saved satisfactorily.",
-    "data": {
-        "session_id": 1,
-        "wpm": 75,
-        "time": 95
-        "totalWords": 60
-    }
-  }
+  POST /api/record/get
 ```
 
-#### Response 401:
+| Parameter JSON | Type     |
+| :-------- | :------- |
+| `session_id`      | `int` |
 
-```http
-  {
-    "message": "Wrong token."
-  }
-```
+#### Responses:
 
-#### Response 403:
+| Status | Response     |
+| :-------- | :------- |
+| `200` | `"data": { [...], [...] }` |
+| `401` | `"message":"The user does not exist."` |
+| `401` | `"message":"Session not found."` |
+| `500` | `"message":"A problem occurred on the server."` |
 
-```http
-  {
-    "message": "Token not provided."
-  }
-```
-
-#### Response 404:
-
-```http
-  {
-    "message": "Session not found."
-  }
-```
-
-#### Response 500:
-
-```http
-  {
-    "message": "A problem occurred on the server."
-  }
-```
-
-#### Error Save
+#### Error Keys Save
 
 ```http
   GET /api/error/save
@@ -139,7 +119,37 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 
 | Parameter | Type     |
 | :-------- | :------- |
-| `id`      | `string` |
+| `session_id`      | `int` |
+| `amount_errors`      | `int` |
+| `time`      | `int` |
+
+#### Responses:
+
+| Status | Response     |
+| :-------- | :------- |
+| `200` | `"message":"the Error keys was saved satisfactorily."` |
+| `401` | `"message":"The user does not exist."` |
+| `401` | `"message":"Session not found."` |
+| `500` | `"message":"A problem occurred on the server."` |
+
+#### Get Error Keys
+
+```http
+  GET /api/error/get
+```
+
+| Parameter | Type     |
+| :-------- | :------- |
+| `session_id`      | `int` |
+
+#### Responses:
+
+| Status | Response     |
+| :-------- | :------- |
+| `200` | `"data": { [...], [...] }` |
+| `401` | `"message":"The user does not exist."` |
+| `401` | `"message":"Session not found."` |
+| `500` | `"message":"A problem occurred on the server."` |
 
 #### Stats Save
 
@@ -149,5 +159,35 @@ Esta API proporciona endpoints para manejar sesiones de usuario, registros, y er
 
 | Parameter | Type     |
 | :-------- | :------- |
-| `id`      | `string` |
+| `wpm`      | `int` |
+| `avg_time`      | `int` |
+| `total_Words`      | `int` |
+| `avg_error`      | `int` |
+| `prefered_lang`      | `int` |
 
+#### Responses:
+
+| Status | Response     |
+| :-------- | :------- |
+| `200` | `"message":"Statistics have been successfully saved.","data": {...}` |
+| `401` | `"message":"The user does not exist."` |
+| `404` | `"message":"There is no language type."` |
+| `500` | `"message":"A problem occurred on the server."` |
+
+#### Get Stats
+
+```http
+  GET /api/stats/getAll
+```
+
+| Parameter | Type     |
+| :-------- | :------- |
+| `session_id`      | `int` |
+
+#### Responses:
+
+| Status | Response     |
+| :-------- | :------- |
+| `200` | `"data": { [...], [...] }` |
+| `401` | `"message":"The user does not exist."` |
+| `500` | `"message":"A problem occurred on the server."` |

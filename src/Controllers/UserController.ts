@@ -6,6 +6,8 @@ import Registros from '../Models/Registros';
 
 import Error_Keys from '../Models/Error_Keys';
 
+import Users from '../Models/Users';
+
 import * as jose from 'jose';
 
 const JWT_SECRET = Buffer.from(process.env.APPLICATION_SECRET || '', 'base64');
@@ -64,6 +66,37 @@ export const saveSession = async (req: Request, res: Response) => {
     }
 };
 
+export const getAllSessions = async (req: Request, res: Response) => {
+    const authHeader = req.headers['x-access-token'];
+
+    try
+    {
+        const { payload } = await jose.jwtVerify(authHeader as string, JWT_SECRET, { algorithms: ['HS256'] });
+
+        const existUserId = await Users.findOne({where: {id: payload.id}});
+
+        if(!existUserId){
+            return res.status(401).json({ error: 'The user does not exist.' });
+        }
+
+        const allSessions = await Sessions.findAll({where: {user_id: payload.id}});
+
+        res.setHeader(
+            'Content-Security-Policy',
+            "default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none';"
+        );
+
+        return res.status(200).json({
+            data: {allSessions}
+            });
+    }
+    catch (error)
+    {
+        console.log(error);
+        return res.status(500).json({ message: 'A problem occurred on the server.' });
+    }
+}
+
 export const saveRegistro = async (req: Request, res: Response) => {
     const authHeader = req.headers['x-access-token'];
 
@@ -72,6 +105,12 @@ export const saveRegistro = async (req: Request, res: Response) => {
     try
     {
         const { payload } = await jose.jwtVerify(authHeader as string, JWT_SECRET, { algorithms: ['HS256'] });
+
+        const existUserId = await Users.findOne({where: {id: payload.id}});
+
+        if(!existUserId){
+            return res.status(401).json({ message: 'The user does not exist.' });
+        }
 
         const existSession = await Registros.findOne({where: {id: session_id}});
 
@@ -108,6 +147,43 @@ export const saveRegistro = async (req: Request, res: Response) => {
     }
 };
 
+export const getAllRecords = async (req: Request, res: Response) => {
+    const authHeader = req.headers['x-access-token'];
+
+    const {session_id} = req.body;
+
+    try
+    {
+        const { payload } = await jose.jwtVerify(authHeader as string, JWT_SECRET, { algorithms: ['HS256'] });
+
+        const existUserId = await Users.findOne({where: {id: payload.id}});
+
+        if(!existUserId){
+            return res.status(401).json({ message: 'The user does not exist.' });
+        }
+
+        const allRegistros = await Registros.findAll({where: {user_id: payload.id, id: session_id}});
+
+        if(!allRegistros){
+            return res.status(401).json({ message: 'Session not found.' });
+        }
+
+        res.setHeader(
+            'Content-Security-Policy',
+            "default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none';"
+        );
+
+        return res.status(200).json({
+            data: {allRegistros}
+            });
+    }
+    catch (error)
+    {
+        console.log(error);
+        return res.status(500).json({ message: 'A problem occurred on the server.' });
+    }
+};
+
 export const saveErrorKeys = async (req: Request, res: Response) => {
     const authHeader = req.headers['x-access-token'];
 
@@ -116,6 +192,12 @@ export const saveErrorKeys = async (req: Request, res: Response) => {
     try
     {
         const { payload } = await jose.jwtVerify(authHeader as string, JWT_SECRET, { algorithms: ['HS256'] });
+
+        const existUserId = await Users.findOne({where: {id: payload.id}});
+
+        if(!existUserId){
+            return res.status(401).json({ message: 'The user does not exist.' });
+        }
 
         const existSession = await Registros.findOne({where: {id: session_id}});
 
@@ -134,4 +216,41 @@ export const saveErrorKeys = async (req: Request, res: Response) => {
         console.log(error);
         return res.status(500).json({ error: 'A problem occurred on the server.' });
     }
-}
+};
+
+export const getAllErrorKeys = async (req: Request, res: Response) => {
+    const authHeader = req.headers['x-access-token'];
+
+    const {session_id} = req.body;
+
+    try
+    {
+        const { payload } = await jose.jwtVerify(authHeader as string, JWT_SECRET, { algorithms: ['HS256'] });
+
+        const existUserId = await Users.findOne({where: {id: payload.id}});
+
+        if(!existUserId){
+            return res.status(401).json({ message: 'The user does not exist.' });
+        }
+
+        const allErrorKeys = await Error_Keys.findAll({where: {user_id: payload.id, id: session_id}});
+
+        if(!allErrorKeys){
+            return res.status(401).json({ message: 'Session not found.' });
+        }
+
+        res.setHeader(
+            'Content-Security-Policy',
+            "default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none';"
+        );
+
+        return res.status(200).json({
+            data: {allErrorKeys}
+            });
+    }
+    catch (error)
+    {
+        console.log(error);
+        return res.status(500).json({ message: 'A problem occurred on the server.' });
+    }
+};
