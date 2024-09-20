@@ -1,42 +1,43 @@
-import { Model, DataTypes } from 'sequelize';
-import { sequelize } from '../Connection/database';
+import { Model, DataTypes } from "sequelize";
+import { sequelize } from "../Connection/database";
+import Sessions from "./Sessions";
 
-class Registros extends Model{
-    public id!: number;
-    public session_id!: number;
-    public wpm!: number;
-    public time!: number;
-    public total_words!: number;
+class Registros extends Model {
+  public id!: number;
+  public session_id!: number;
+  public wpm!: number;
+  public time!: number;
+  public total_words!: number;
 }
 
 Registros.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            allowNull: false,
-          },
-          session_id: {
-            type: DataTypes.INTEGER,
-            references: { model: 'Sessions', key: 'id' },
-            onDelete: 'CASCADE',
-          },
-          wpm: {
-            type: DataTypes.DECIMAL(6, 2),
-          },
-          time: {
-            type: DataTypes.BIGINT,
-          },
-          total_words: {
-            type: DataTypes.INTEGER,
-          }
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
     },
-    {
-        sequelize: sequelize,
-        tableName: 'Registros',
-        timestamps: false
-    }
+    session_id: {
+      type: DataTypes.INTEGER,
+      references: { model: "Sessions", key: "id" },
+      onDelete: "CASCADE",
+    },
+    wpm: {
+      type: DataTypes.DECIMAL(6, 2),
+    },
+    time: {
+      type: DataTypes.BIGINT,
+    },
+    total_words: {
+      type: DataTypes.INTEGER,
+    },
+  },
+  {
+    sequelize: sequelize,
+    tableName: "Registros",
+    timestamps: false,
+  }
 );
 
 export default Registros;

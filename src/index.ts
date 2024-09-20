@@ -25,7 +25,7 @@ const startServer = async () => {
   try {
     await sequelize.authenticate();
     console.log("Conexión exitosa a la base de datos.");
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     console.log("Tablas sincronizadas con la base de datos.");
     app.listen(PORT, () => {
       console.log(`Servidor corriendo en el puerto ${PORT}`);
